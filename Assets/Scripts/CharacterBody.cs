@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 // code obtained from hackernoon tutorial
 public class CharacterBody : MonoBehaviour
 {
@@ -27,11 +28,13 @@ public class CharacterBody : MonoBehaviour
     private float _sqrMaxSpeed;
     private float _minGroundVertical;
 
-    //stablishes the states the character can be in
-    [field: SerializeField] public CharacterState State { get; private set; }
-
     //using Unity's Slide() method that simplifies implementing the physics for the character
     private Rigidbody2D.SlideMovement _slideMovement;
+
+    //An event that responds instantly to landing, [0] is the previous event and [1] is the current state
+    public event Action<CharacterStateEnum, CharacterStateEnum> StateChanged;
+
+    [field: SerializeField] private CharacterStateEnum _state;
 
     private void Awake()
     {
@@ -40,7 +43,7 @@ public class CharacterBody : MonoBehaviour
         _slideMovement = CreateSlideMovement();
     }
 
-    public enum CharacterState
+    public enum CharacterStateEnum
     {
         Grounded,
         //Grounded: Character stays on the ground and is able to jump and move across it
@@ -48,6 +51,22 @@ public class CharacterBody : MonoBehaviour
         Airborne
         //Airborne: Character is airborne or free falling
 
+    }
+
+    //stablishes the states the character can be in
+    public CharacterStateEnum State
+    {
+        get => _state;
+
+        private set
+        {
+            if (_state != value)
+            {
+                var previousState = _state;
+                _state = value;
+                StateChanged?.Invoke(previousState, value);
+            }
+        }
     }
 
     // getter and setter for velocity, limited by the character's max velocity. Using the squared magnitude 
@@ -100,7 +119,7 @@ public class CharacterBody : MonoBehaviour
        public void Jump(float jumpSpeed)
     {
         Velocity = new Vector2(_velocity.x, jumpSpeed);
-        State = CharacterState.Airborne;
+        State = CharacterStateEnum.Airborne;
         
     }
 
@@ -127,14 +146,16 @@ public class CharacterBody : MonoBehaviour
             var surfaceHit = slideResults.surfaceHit;
             Velocity = ClipVector(_velocity, surfaceHit.normal);
 
-            State = surfaceHit.normal.y >= _minGroundVertical
-                ? CharacterState.Grounded
-                : CharacterState.Airborne;
+            if (surfaceHit.normal.y >= _minGroundVertical)
+            {
+                State = CharacterStateEnum.Grounded;
+                return;
+            }
+
+
         }
-        else
-        {
-            State = CharacterState.Airborne;
-        }
+        
+        State = CharacterStateEnum.Airborne;    
         
     }
 

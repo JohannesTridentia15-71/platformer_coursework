@@ -30,6 +30,13 @@ public class CharacterController : MonoBehaviour
     //In order to check if the character is jumping, limiting the jump speed whenever appropriate
     private bool _isJumping;
 
+    //The window of time the jump can still be triggered after landing
+    [Min(0)]
+    [SerializeField] private float _jumpActionTime = 0.1f;
+
+    //the end of the jump action window
+    private float _jumpActionEndTime;
+
     //defines the jump speed by applying the formula, altered by the gravity factor
     private void Awake()
     {
@@ -52,7 +59,15 @@ public class CharacterController : MonoBehaviour
     {
         if (context.started)
         {
-            Jump();
+            if (_characterBody.State == CharacterBody.CharacterStateEnum.Grounded)
+            {
+                Jump();
+            }
+            //store the time window during which the jump can be performed.
+            else
+            {
+                _jumpActionEndTime = Time.unscaledTime + _jumpActionTime;
+            }
         }
         else if (context.canceled)
         {
@@ -63,10 +78,8 @@ public class CharacterController : MonoBehaviour
     //jump method here that changed the state and calls the jump function from the other class
     private void Jump()
     {
-        if (_characterBody.State == CharacterBody.CharacterState.Grounded)
-        {
-            _isJumping = true;
-        }
+        _isJumping = true;
+        
         _characterBody.Jump(_jumpSpeed);
     }
 
@@ -76,6 +89,8 @@ public class CharacterController : MonoBehaviour
     private void StopJumping()
     {
         var velocity = _characterBody.Velocity;
+        //no jump should occur if the button was released before landing
+        _jumpActionEndTime = 0;
 
         if (_isJumping && velocity.y > 0)
         {
@@ -89,7 +104,7 @@ public class CharacterController : MonoBehaviour
     //at every frame, update the velocity of the character and check if character is jumping
     private void Update()
     {
-        if (_characterBody.State == CharacterBody.CharacterState.Grounded)
+        if (_characterBody.State == CharacterBody.CharacterStateEnum.Grounded)
         {
             _isJumping = false;
         }
