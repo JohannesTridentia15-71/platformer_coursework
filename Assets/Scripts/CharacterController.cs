@@ -37,6 +37,15 @@ public class CharacterController : MonoBehaviour
     //the end of the jump action window
     private float _jumpActionEndTime;
 
+    //used to measure the little leeway the player has between leaving the platform and jumping
+    [Min(0)]
+    [SerializeField] private float _rememberGroundTime = 0.1f;
+
+    //stores the time stamp after which the Grounded state is lost
+    private float _lostGroundTime;
+
+
+
     //defines the jump speed by applying the formula, altered by the gravity factor
     private void Awake()
     {
@@ -59,7 +68,7 @@ public class CharacterController : MonoBehaviour
     {
         if (context.started)
         {
-            if (_characterBody.State == CharacterBody.CharacterStateEnum.Grounded)
+            if (_characterBody.State == CharacterBody.CharacterStateEnum.Grounded || (!_isJumping && _lostGroundTime > Time.unscaledTime))
             {
                 Jump();
             }
@@ -94,20 +103,49 @@ public class CharacterController : MonoBehaviour
 
         if (_isJumping && velocity.y > 0)
         {
-            _isJumping = false;
+            _characterBody.Velocity = new Vector2(velocity.x, velocity.y / _stopJumpFactor);
         }
-        _characterBody.Velocity = new Vector2(velocity.x, velocity.y / _stopJumpFactor);
+    }
+
+    private void OnEnable()
+    {
+        _characterBody.StateChanged += OnStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        _characterBody.StateChanged -= OnStateChanged;
+    }
+
+    private void OnStateChanged(CharacterBody.CharacterStateEnum previousState, CharacterBody.CharacterStateEnum state)
+    {
+        if (state == CharacterBody.CharacterStateEnum.Grounded)
+        {
+            OnGrounded();
+        }
+        else if (previousState == CharacterBody.CharacterStateEnum.Grounded)
+        {
+            _lostGroundTime = Time.unscaledTime + _rememberGroundTime;
+        }
+    }
+
+    private void OnGrounded()
+    {
+        _isJumping = false;
+
+        //this checks whether the jump button was pressed recently, being true if so
+        if(_jumpActionEndTime > Time.unscaledTime)
+        {
+            _jumpActionEndTime = 0;
+            Jump();
+        }
     }
 
  
 
-    //at every frame, update the velocity of the character and check if character is jumping
+    //at every frame, update the velocity of the character
     private void Update()
     {
-        if (_characterBody.State == CharacterBody.CharacterStateEnum.Grounded)
-        {
-            _isJumping = false;
-        }
         _characterBody.SetLocomotionVelocity(_locomotionVelocity);
     }
 
