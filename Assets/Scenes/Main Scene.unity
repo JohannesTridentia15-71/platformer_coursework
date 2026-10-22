@@ -2795,7 +2795,7 @@ MonoBehaviour:
   _surfaceAnchor: 0.01
   _maxSlope: 45
   _velocity: {x: 0, y: 0}
-  <State>k__BackingField: 0
+  _state: 0
 --- !u!61 &707096106
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2900,6 +2900,8 @@ MonoBehaviour:
   _speed: 5
   _jumpHeight: 2.5
   _stopJumpFactor: 2.5
+  _jumpActionTime: 0.1
+  _rememberGroundTime: 0.1
 --- !u!114 &707096110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3033,7 +3035,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -6684257779392719019, guid: 9ba831745ab475947a5ed5335019e5df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3041,7 +3043,7 @@ SpriteRenderer:
   m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!114 &707096113
@@ -3053,9 +3055,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 707096104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e215596ea7d99b04d94701380776835e, type: 3}
+  m_Script: {fileID: 11500000, guid: f70130de18cc03e4eab0edee7f9f48e3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerFlip
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerVisuals
 --- !u!1 &882042142
 GameObject:
   m_ObjectHideFlags: 0
@@ -3396,7 +3398,7 @@ Transform:
   m_GameObject: {fileID: 1542877067}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.7, y: -2.37, z: -10}
+  m_LocalPosition: {x: -4.93, y: -3.33, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3534,7 +3536,7 @@ Transform:
   m_GameObject: {fileID: 1651405302}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.7, y: -0.8699999, z: -11.5}
+  m_LocalPosition: {x: -4.93, y: -1.8299999, z: -11.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
