@@ -30,6 +30,8 @@ public class CharacterController : MonoBehaviour
     //In order to check if the character is jumping, limiting the jump speed whenever appropriate
     private bool _isJumping;
 
+
+
     //The window of time the jump can still be triggered after landing
     [Min(0)]
     [SerializeField] private float _jumpActionTime = 0.1f;
@@ -43,7 +45,6 @@ public class CharacterController : MonoBehaviour
 
     //stores the time stamp after which the Grounded state is lost
     private float _lostGroundTime;
-
 
 
     //defines the jump speed by applying the formula, altered by the gravity factor
@@ -140,8 +141,6 @@ public class CharacterController : MonoBehaviour
             Jump();
         }
     }
-
- 
 
     //at every frame, update the velocity of the character
     private void Update()

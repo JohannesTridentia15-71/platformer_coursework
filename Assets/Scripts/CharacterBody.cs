@@ -1,10 +1,20 @@
 using UnityEngine;
 using System;
+using System.Collections;
 // code obtained from hackernoon tutorial
 public class CharacterBody : MonoBehaviour
 {
     //SerializeField basically allows unity to represent private vars in the editor
     [SerializeField] private Rigidbody2D _rigidbody;
+    [SerializeField] private Collider2D _collider;
+    [SerializeField] private Vector2 _respawnPoint;
+
+    //used for death and respawn
+    [SerializeField] private bool _alive = true;
+
+    //hard restart point
+    [SerializeField] private Vector2 _startPoint = new Vector2(-5f, -3f);
+
     //makes gravity act stronger than usual due to some dynamics of character movement
     //this factor cannot be less than 0
     [Min(0)]
@@ -23,6 +33,8 @@ public class CharacterBody : MonoBehaviour
     [SerializeField] private float _maxSlope = 45f;
     [SerializeField] private Vector2 _velocity;
 
+    
+
     //used in the velocity getters and setter in order to reduce the computational impact
     //of calculating the square root
     private float _sqrMaxSpeed;
@@ -35,6 +47,12 @@ public class CharacterBody : MonoBehaviour
     public event Action<CharacterStateEnum, CharacterStateEnum> StateChanged;
 
     [field: SerializeField] private CharacterStateEnum _state;
+
+    private void Start()
+    {
+        _collider = GetComponent<Collider2D>();
+        SpawnAt(_startPoint);
+    }
 
     private void Awake()
     {
@@ -123,11 +141,43 @@ public class CharacterBody : MonoBehaviour
         
     }
 
+    //kills the character
+    public void Die()
+    {
+        //prevents multiple resets
+        if(!_alive){return;}
+        _velocity = Vector2.zero;
+        _alive = false;
+        _collider.enabled = false;
+        transform.position = _respawnPoint;
+        StartCoroutine(Respawn());
+    }
+
+    //respawns the character at a given position
+    public void SpawnAt(Vector2 position)
+    {
+        _respawnPoint = position;
+    }
+
+    private IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(0.01f);
+        _velocity = Vector2.zero;
+        transform.position = _respawnPoint;
+        _alive = true;
+        _collider.enabled = true;
+    }
+
 
     //honestly, not sure what exactly is going on here. I understand this is used to make sure the acceleration
     //isn't weird and that his movement is smooth
     private void FixedUpdate()
     {
+        //return if character dies
+        if (!_alive)
+        {
+            return;
+        }
         //this gets the vector of gravity acting on the character at time intervals
         Velocity += Time.fixedDeltaTime * GravityFactor * Physics2D.gravity;
 
