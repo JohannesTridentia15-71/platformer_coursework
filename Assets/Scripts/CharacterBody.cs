@@ -7,6 +7,8 @@ public class CharacterBody : MonoBehaviour
     //SerializeField basically allows unity to represent private vars in the editor
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private Collider2D _collider;
+
+    [SerializeField] private SpriteRenderer _sprite;
     [SerializeField] private Vector2 _respawnPoint;
 
     //used for death and respawn
@@ -51,6 +53,7 @@ public class CharacterBody : MonoBehaviour
     private void Start()
     {
         _collider = GetComponent<Collider2D>();
+        _sprite = GetComponent<SpriteRenderer>();
         SpawnAt(_startPoint);
     }
 
@@ -149,8 +152,13 @@ public class CharacterBody : MonoBehaviour
         _velocity = Vector2.zero;
         _alive = false;
         _collider.enabled = false;
-        transform.position = _respawnPoint;
-        StartCoroutine(Respawn());
+        if(_sprite != null)
+        {
+            _sprite.enabled = false;
+        }
+
+        FindAnyObjectByType<GameController>()?.ShowDeathScreen();
+
     }
 
     //respawns the character at a given position
