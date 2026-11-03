@@ -5,6 +5,13 @@ public class MainMenuController : MonoBehaviour
 {
     public void OnClickPlay()
     {
+        // first playthrough: go straight into the tutorial until it has been completed
+        if (!LevelManager.Instance.HasCompletedTutorial)
+        {
+            SceneManager.LoadScene("Tutorial");
+            return;
+        }
+
         SceneManager.LoadScene("Level Select");
     }
 

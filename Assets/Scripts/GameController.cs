@@ -83,6 +83,18 @@ public class GameController : MonoBehaviour
         Application.Quit();
     }
 
+    //used by the victory screen's Next Level button: tutorial (0) -> Level 1, so on
+    //and back to the level select after the last level
+    public void LoadNextLevel()
+    {
+        string next = "Level " + (_levelIndex + 1);
+        if (!Application.CanStreamedLevelBeLoaded(next))
+        {
+            next = "Level Select";
+        }
+        LoadScene(next);
+    }
+
     public void LoadScene(string sceneName)
     {
         Time.timeScale = 1f;
