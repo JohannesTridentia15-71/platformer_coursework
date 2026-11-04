@@ -12,6 +12,9 @@ public class LavaMovement : MonoBehaviour
 
     private float _startTime;
 
+    //true once the lava has started moving up
+    public bool IsRising { get; private set; }
+
     void Start()
     {
             _risingVector = new Vector2(0, _risingSpeed);
@@ -21,12 +24,20 @@ public class LavaMovement : MonoBehaviour
 
     void Update()
     {
+        //during the volcano eruption the lava waits, then starts its delay once the eruption is over
+        if (EruptionEvent.InProgress)
+        {
+            _startTime = Time.time + _startDelay;
+            return;
+        }
+
         //lava stays still until the delay has passed
         if (Time.time < _startTime)
         {
             return;
         }
 
+        IsRising = true;
         this.transform.Translate(_risingVector * Time.deltaTime);
     }
 }

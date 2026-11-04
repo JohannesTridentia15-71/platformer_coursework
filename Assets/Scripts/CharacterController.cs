@@ -46,6 +46,18 @@ public class CharacterController : MonoBehaviour
     //stores the time stamp after which the Grounded state is lost
     private float _lostGroundTime;
 
+    //while true the player can't move or jump (used during the volcano eruption cutscene)
+    private bool _controlsLocked;
+    //the latest movement input, kept so held keys work again as soon as the lock ends
+    private float _inputX;
+
+    public void SetControlsLocked(bool locked)
+    {
+        _controlsLocked = locked;
+        _jumpActionEndTime = 0;
+        _locomotionVelocity = locked ? 0 : _inputX * _speed;
+    }
+
 
     //defines the jump speed by applying the formula, altered by the gravity factor
     private void Awake()
@@ -59,7 +71,8 @@ public class CharacterController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         var value = context.ReadValue<Vector2>();
-        _locomotionVelocity = value.x * _speed;
+        _inputX = value.x;
+        _locomotionVelocity = _controlsLocked ? 0 : value.x * _speed;
     }
 
     //The jump action is bound to a button, so the context starts when it is pressed and ends when it is released.
@@ -67,6 +80,11 @@ public class CharacterController : MonoBehaviour
     //adding the button S as a fall.
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (_controlsLocked)
+        {
+            return;
+        }
+
         if (context.started)
         {
             if (_characterBody.State == CharacterBody.CharacterStateEnum.Grounded || (!_isJumping && _lostGroundTime > Time.unscaledTime))

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1632157422772544525}
   - component: {fileID: 1110296248364449478}
   - component: {fileID: 398152991150957880}
+  - component: {fileID: 8172635401928374652}
+  - component: {fileID: 8172635401928374653}
   m_Layer: 0
   m_Name: Lefty Fire Ball
   m_TagString: Untagged
@@ -85,7 +87,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.8705883, g: 0.13333334, b: 0.13333334, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -172,3 +174,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _movementSpeed: 3
   _movementVector: {x: 0, y: 0}
+--- !u!114 &8172635401928374652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2307270140814673564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f8e6d4c9a1b4c3d8e7f6a5b4c3d2e1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LavaFireballSkin
+  _lavaTexture: {fileID: 2800000, guid: 6e5ed97cf9dd9434cb0e983dc8f2265c, type: 3}
+  _diameterPixels: 13
+  _rimDarkness: 0.55
+  _scrollInterval: 0.08
+--- !u!114 &8172635401928374653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2307270140814673564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd6f4fed81d20e4e8cf42e8da713290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OneShot

@@ -124,12 +124,22 @@ MonoBehaviour:
   background: {fileID: 0}
   beforeSprite: {fileID: -593669982973253145, guid: 3f70e5c4e2e513642b210b0609551e6c, type: 3}
   afterSprite: {fileID: 325359895, guid: 3f70e5c4e2e513642b210b0609551e6c, type: 3}
-  delayBeforeEruption: 3
-  rumbleDuration: 1
+  delayBeforeEruption: 1.5
+  rumbleDuration: 4.5
+  darkenColor: {r: 0.35, g: 0.05, b: 0, a: 0.45}
+  foreshocks:
+  - 0.35
+  - 0.7
+  foreshockFlash: 0.35
+  foreshockShake: 0.35
   flashColor: {r: 1, g: 0.85, b: 0.6, a: 1}
-  flashFadeTime: 4
+  flashFadeTime: 3.5
+  afterglowColor: {r: 1, g: 0.25, b: 0.05, a: 0.35}
+  afterglowFadeTime: 5
   cam: {fileID: 0}
-  rumbleStrength: 0.05
-  shakeStrength: 0.4
-  shakeDuration: 1.2
+  rumbleStrength: 0.12
+  shakeStrength: 0.8
+  shakeDuration: 3
   shakeSpeed: 25
+  lockPlayer: 1
+  playOncePerSession: 1

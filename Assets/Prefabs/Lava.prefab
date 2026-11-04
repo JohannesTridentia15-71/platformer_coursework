@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 5067489600654021357}
   - component: {fileID: 5532314437583413903}
   - component: {fileID: 4131089612973442720}
+  - component: {fileID: 6203948571039485721}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -63,7 +64,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -40, z: 0}
-  m_LocalScale: {x: 100, y: 150, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 774003360358299077}
@@ -121,8 +122,8 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_DrawMode: 2
+  m_Size: {x: 160, y: 48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -162,7 +163,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0001443252, y: 0.1524603}
+  m_Offset: {x: 0, y: 22.81}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -172,7 +173,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.32144296, y: 0.015848994}
+  m_Size: {x: 160, y: 2.38}
   m_EdgeRadius: 0
 --- !u!50 &5067489600654021357
 Rigidbody2D:
@@ -228,3 +229,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _lavaStartPos: {x: 0, y: -40}
+--- !u!114 &6203948571039485721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3959211490711768063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3c5e9b1d2f4a6c8e0b2d4f6a8c0e13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LavaSurfaceScroll
+  _lavaTexture: {fileID: 2800000, guid: 6e5ed97cf9dd9434cb0e983dc8f2265c, type: 3}
+  _scrollInterval: 0.08
+  _verticalEvery: 3
