@@ -9,6 +9,8 @@ public class CrumblingPlatform : MonoBehaviour
 
     public float _shakeAmount = 0.06f;
     public float _fallGravity = 3f;
+    public float _pixelsPerUnit = 26f;
+    public float _shakeInterval = 0.03f;
 
     bool _isFalling = false;
 
@@ -33,13 +35,26 @@ public class CrumblingPlatform : MonoBehaviour
         _isFalling = true;
 
         // shake strongewr
+        float pixel = 1f / _pixelsPerUnit;
         Vector3 start = transform.position;
+        start.x = Mathf.Round(start.x * _pixelsPerUnit) * pixel;
         float t = 0f;
+        float nextStep = 0f;
+        int lastOffset = 0;
         while (t < _crumbleTimer)
         {
             t += Time.deltaTime;
-            float strength = _shakeAmount * Mathf.Lerp(0.25f, 1f, t / _crumbleTimer);
-            transform.position = start + new Vector3(Random.Range(-1f, 1f) * strength, 0f, 0f);
+            if (t >= nextStep)
+            {
+                nextStep = t + _shakeInterval;
+                float strength = _shakeAmount * Mathf.Lerp(0.25f, 1f, t / _crumbleTimer);
+                int maxPixels = Mathf.Max(1, Mathf.RoundToInt(strength * _pixelsPerUnit));
+                // always move to a different pixel so the shake is visible from the start
+                int offset;
+                do { offset = Random.Range(-maxPixels, maxPixels + 1); } while (offset == lastOffset);
+                lastOffset = offset;
+                transform.position = start + new Vector3(offset * pixel, 0f, 0f);
+            }
             yield return null;
         }
         transform.position = start;

@@ -60,6 +60,11 @@ public class LavaWarning : MonoBehaviour
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 900;
 
+        var scaler = canvasObj.AddComponent<UnityEngine.UI.CanvasScaler>();
+        scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = new Vector2(2560, 1440);
+        scaler.screenMatchMode = UnityEngine.UI.CanvasScaler.ScreenMatchMode.Expand;
+
         GameObject groupObj = new GameObject("LavaWarning", typeof(RectTransform));
         groupObj.transform.SetParent(canvasObj.transform, false);
         _group = (RectTransform)groupObj.transform;
